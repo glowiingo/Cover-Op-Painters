@@ -1,6 +1,7 @@
-package com.example.cover_op_painters;
+package ca.bcit.coveropspainters;
 
 import android.content.Context;
+
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -21,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.cover_op_painters", appContext.getPackageName());
+        assertEquals("ca.bcit.coveropspainters", appContext.getPackageName());
     }
 }
