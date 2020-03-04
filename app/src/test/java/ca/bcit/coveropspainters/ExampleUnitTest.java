@@ -1,4 +1,4 @@
-package com.example.cover_op_painters;
+package ca.bcit.coveropspainters;
 
 import org.junit.Test;
 
