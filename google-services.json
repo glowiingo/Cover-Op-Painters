@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "812306601375",
+    "firebase_url": "https://coveropspainters.firebaseio.com",
+    "project_id": "coveropspainters",
+    "storage_bucket": "coveropspainters.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812306601375:android:926749c2302906448959aa",
+        "android_client_info": {
+          "package_name": "ca.bcit.coveropspainters"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "812306601375-a95bk7krtr6ln7gg995nv44i91dijis2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.bcit.coveropspainters",
+            "certificate_hash": "d80e124b9bbdf1c02ae7c9500278485823e434c3"
+          }
+        },
+        {
+          "client_id": "812306601375-ikhjs0n86hcnqrkv4urgtg8gj6bmtc36.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCddrA2qA8mi_artwBRREo4O8MBaw4uGq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "812306601375-ikhjs0n86hcnqrkv4urgtg8gj6bmtc36.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

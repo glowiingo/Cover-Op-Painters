@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Cover-Op-Painters</string>
+    <string name="app_name">CoverOpsPainters</string>
+    <!-- ... -->
+    <string name="facebook_application_id" translatable="false">191469795489211</string>
+    <!-- Facebook Application ID, prefixed by 'fb'. Enables Chrome Custom tabs. -->
+    <string name="facebook_login_protocol_scheme" translatable="false">fbAPP_ID</string>
+    <string name="sign_in">Sign-In</string>
+    <string name="current">Current</string>
 </resources>
