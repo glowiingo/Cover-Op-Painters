@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CoverOpsPainters</string>
+    <string name="title_activity_g_maps_marker">Map</string>
 </resources>
