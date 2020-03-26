@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".CurrentEventActivity"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolBarTop"
@@ -17,16 +17,10 @@
         app:navigationIcon="@drawable/com_facebook_send_button_icon"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
-    <Button
-        android:id="@+id/signIn"
+    <ListView
+        android:id="@+id/current_events"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/sign_in" />
+        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/current"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/current" />
+
 </LinearLayout>
