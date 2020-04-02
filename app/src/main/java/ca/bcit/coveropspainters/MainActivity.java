@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button signIn = findViewById(R.id.signIn);
         Button current = findViewById(R.id.current);
+        Button gmaps = findViewById(R.id.gmaps_button);
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 current_intent(v);
+            }
+        });
+        gmaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gmap(v);
             }
         });
     }
