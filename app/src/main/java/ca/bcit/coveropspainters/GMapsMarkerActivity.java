@@ -73,6 +73,7 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
         GeoJsonLayer layer = new GeoJsonLayer(mMap, graffitiGeoJsonObject);
         layer.addLayerToMap();
 
+        // auto focus to downtown Vancouver
         LatLng downtownVancouver = new LatLng(49.2820, -123.1171);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(downtownVancouver));
         // Add a marker in Sydney and move the camera
