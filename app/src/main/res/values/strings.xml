@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CoverOpsPainters</string>
+    <string name="title_activity_g_maps_marker">Map</string>
     <!-- ... -->
     <string name="facebook_application_id" translatable="false">191469795489211</string>
     <!-- Facebook Application ID, prefixed by 'fb'. Enables Chrome Custom tabs. -->
