@@ -47,4 +47,9 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, CurrentEventActivity.class);
         startActivity(i);
     }
+
+    public void gmap(View v) {
+        Intent i = new Intent(this, GMapsMarkerActivity.class);
+        startActivity(i);
+    }
 }
