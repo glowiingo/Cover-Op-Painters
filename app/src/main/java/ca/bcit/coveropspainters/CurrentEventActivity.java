@@ -41,7 +41,7 @@ public class CurrentEventActivity extends AppCompatActivity {
         mListView = findViewById(R.id.current_events);
         graffiti = new ArrayList<>();
         try {
-            JSONObject object = new JSONObject(loadJSONFromAsset());
+            JSONObject object = new JSONObject(new GlobalFunctions().loadJSONFromAsset(getAssets(), "graffiti.json"));
             JSONArray array = object.getJSONArray("graffiti");
             for (int i = 0; i < array.length(); i++) {
 
@@ -61,20 +61,14 @@ public class CurrentEventActivity extends AppCompatActivity {
         }
         CurrentAdapter adapter = new CurrentAdapter(this, graffiti);
         mListView.setAdapter(adapter);
-    }
 
-    public String loadJSONFromAsset() {
-        String json = null;
-        try {
-            InputStream is = getAssets().open("graffiti.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return json;
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CurrentEventActivity.this, CreateEvent.class);
+                intent.putExtra("graffiti", mListView.getItemAtPosition(position).toString());
+                startActivity(intent);
+            }
+        });
     }
 }

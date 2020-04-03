@@ -1,9 +1,14 @@
 <resources>
     <string name="app_name">CoverOpsPainters</string>
+    <string name="title_activity_g_maps_marker">Map</string>
     <!-- ... -->
     <string name="facebook_application_id" translatable="false">191469795489211</string>
     <!-- Facebook Application ID, prefixed by 'fb'. Enables Chrome Custom tabs. -->
     <string name="facebook_login_protocol_scheme" translatable="false">fbAPP_ID</string>
     <string name="sign_in">Sign-In</string>
     <string name="current">Current</string>
+    <string name="google_maps_button">Google Maps</string>
+    <string name="create_event_button">Create Event</string>
+    <string name="date_label">Date</string>
+    <string name="time_label">Time</string>
 </resources>
