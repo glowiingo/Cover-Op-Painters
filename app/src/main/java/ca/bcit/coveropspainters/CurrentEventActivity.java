@@ -1,18 +1,26 @@
 package ca.bcit.coveropspainters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,18 +32,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CurrentEventActivity extends AppCompatActivity {
+public class CurrentEventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private String TAG = "CurrentEventActivity";
+    DrawerLayout drawerLayout;
+    Toolbar toolbar;
+    NavigationView navigationView;
+    ActionBarDrawerToggle toggle;
 
     private ListView mListView;
     private List<GraffitiData> graffiti;
 
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_event);
+
+        drawerLayout = findViewById(R.id.drawer);
+        toolbar = findViewById(R.id.toolBarTop);
+        navigationView = findViewById(R.id.naviagtionView);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
         Log.e(TAG, "ERROR");
 
         mListView = findViewById(R.id.current_events);
@@ -61,6 +86,34 @@ public class CurrentEventActivity extends AppCompatActivity {
         }
         CurrentAdapter adapter = new CurrentAdapter(this, graffiti);
         mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CurrentEventActivity.this, CreateEvent.class);
+                intent.putExtra("graffiti", mListView.getItemAtPosition(position).toString());
+                startActivity(intent);
+            }
+        });
+
+
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.Profile:
+                Toast.makeText(CurrentEventActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.Contact:
+                Toast.makeText(CurrentEventActivity.this, "Contact Selected", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.About:
+                Toast.makeText(CurrentEventActivity.this, "About Selected", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.Logout:
+                Toast.makeText(CurrentEventActivity.this, "Logout Selected", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return false;
+    }
 }
