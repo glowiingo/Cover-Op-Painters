@@ -16,6 +16,7 @@ public class CreateEvent extends AppCompatActivity {
 
         eventData = (TextView)findViewById(R.id.eventDescription);
         Bundle bundle = getIntent().getExtras();
+        //why... :'(
         
         eventData.
     }
