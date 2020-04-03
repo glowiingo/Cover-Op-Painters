@@ -16,8 +16,13 @@ public class CreateEvent extends AppCompatActivity {
 
         eventData = (TextView)findViewById(R.id.eventDescription);
         Bundle bundle = getIntent().getExtras();
-        //why... :'(
-        
-        eventData.
+        if (bundle != null){
+            String coordinate = bundle.getString("geo_local_area");
+            eventData.setText(coordinate);
+            //eventData.setText(bundle.getString("graffiti").toString());
+        }
+        else{
+            eventData.setText("No Data Found");
+        }
     }
 }
