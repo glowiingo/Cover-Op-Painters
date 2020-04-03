@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".PastEventActivity"
     android:id="@+id/drawer"
+    tools:openDrawer="start"
     android:orientation="vertical">
 
     <LinearLayout
