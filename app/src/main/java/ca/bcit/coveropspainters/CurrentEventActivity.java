@@ -20,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
@@ -87,6 +86,16 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
         }
         CurrentAdapter adapter = new CurrentAdapter(this, graffiti);
         mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CurrentEventActivity.this, CreateEvent.class);
+                intent.putExtra("graffiti", mListView.getItemAtPosition(position).toString());
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override
@@ -104,9 +113,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
             case R.id.Logout:
                 Toast.makeText(CurrentEventActivity.this, "Logout Selected", Toast.LENGTH_SHORT).show();
                 break;
-
         }
         return false;
     }
-
 }

@@ -31,6 +31,7 @@
         <activity android:name=".GMapsMarkerActivity" />
         <activity android:name=".PastAdapter" />
         <activity android:name=".CurrentEventActivity" />
+        <activity android:name=".CreateEvent"/>
         <activity android:name=".PastEventActivity" />
         <activity android:name=".FirebaseUIActivity" />
         <activity android:name=".MainActivity">
