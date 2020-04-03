@@ -73,7 +73,7 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
 
         assert graffitiGeoJsonObject != null;
         GeoJsonLayer layer = new GeoJsonLayer(mMap, graffitiGeoJsonObject);
-        layer.addLayerToMap();
+        // layer.addLayerToMap();
 
         // auto focus to downtown Vancouver
         LatLng downtownVancouver = new LatLng(49.2820, -123.1171);
@@ -119,12 +119,10 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
 
         // Set some lat/lng coordinates to start with.
 
+
         // Add ten cluster items in close proximity, for purposes of this example.
         for (int i = 0; i < listOfLatLng.size(); i++) {
-            double offset = i / 60d;
-            lat = lat + offset;
-            lng = lng + offset;
-            Graffiti_Item offsetItem = new Graffiti_Item();
+            Graffiti_Item offsetItem = new Graffiti_Item(listOfLatLng.get(i));
             mGraffitiCluster.addItem(offsetItem);
         }
     }
