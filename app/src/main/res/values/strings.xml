@@ -8,4 +8,7 @@
     <string name="sign_in">Sign-In</string>
     <string name="current">Current</string>
     <string name="google_maps_button">Google Maps</string>
+    <string name="create_event_button">Create Event</string>
+    <string name="date_label">Date</string>
+    <string name="time_label">Time</string>
 </resources>

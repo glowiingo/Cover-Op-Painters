@@ -61,6 +61,14 @@ public class CurrentEventActivity extends AppCompatActivity {
         }
         CurrentAdapter adapter = new CurrentAdapter(this, graffiti);
         mListView.setAdapter(adapter);
-    }
 
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CurrentEventActivity.this, CreateEvent.class);
+                intent.putExtra("graffiti", mListView.getItemAtPosition(position).toString());
+                startActivity(intent);
+            }
+        });
+    }
 }
