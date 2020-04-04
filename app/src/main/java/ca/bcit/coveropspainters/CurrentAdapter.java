@@ -33,6 +33,7 @@ public class CurrentAdapter extends ArrayAdapter<GraffitiData> {
         id = convertView.findViewById(R.id.record_id);
         field.setText(graffiti.getDatasetid());
         id.setText(graffiti.getRecordid());
+        //id.setText(graffiti.getCoordinate());
         return convertView;
     }
 }
