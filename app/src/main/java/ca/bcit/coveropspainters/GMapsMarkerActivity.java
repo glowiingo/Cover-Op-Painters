@@ -6,15 +6,18 @@ import android.content.res.Resources;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.data.Feature;
 import com.google.maps.android.data.geojson.GeoJsonFeature;
@@ -44,6 +47,7 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -61,6 +65,7 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
         mMap = googleMap;
         mMap.setMinZoomPreference(13.5f);
         mMap.setMaxZoomPreference(20.0f);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
         JSONObject graffitiGeoJsonObject = null;
 
@@ -85,16 +90,15 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
             listOfLatLng.add(latlng);
         }
         Log.e("List: ", String.valueOf(listOfLatLng.size()));
-        // Log.e("First", listOfLatLng.get(0).toString());
-//        layer.setOnFeatureClickListener(new GeoJsonLayer.OnFeatureClickListener() {
-//            @Override
-//            public void onFeatureClick(Feature feature) {
-//                Log.e("Feature: ", feature.toString());
-//                Log.e("GeoJsonClick", "Feature clicked: " + feature.getGeometry().getGeometryObject());
-//                Log.e("LatLon", feature.getGeometry().getGeometryObject().toString().split(" ")[1]);
-//                Log.e("Geo Local: ", feature.getProperty("geo_local_area"));
-//            }
-//        });
+        layer.setOnFeatureClickListener(new GeoJsonLayer.OnFeatureClickListener() {
+            @Override
+            public void onFeatureClick(Feature feature) {
+                Log.e("Feature: ", feature.toString());
+                Log.e("GeoJsonClick", "Feature clicked: " + feature.getGeometry().getGeometryObject());
+                Log.e("LatLon", feature.getGeometry().getGeometryObject().toString().split(" ")[1]);
+                Log.e("Geo Local: ", feature.getProperty("geo_local_area"));
+            }
+        });
 
 
         setUpClusterer();
@@ -110,20 +114,47 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
         // manager.
         mMap.setOnCameraIdleListener(mGraffitiCluster);
         mMap.setOnMarkerClickListener(mGraffitiCluster);
+//        mMap.setInfoWindowAdapter(mGraffitiCluster.getMarkerManager());
+//
+//        mMap.setOnInfoWindowClickListener(mGraffitiCluster); //added
+
 
         // Add cluster items (markers) to the cluster manager.
         addItems();
+
+        mGraffitiCluster.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<Graffiti_Item>() {
+            @Override
+            public boolean onClusterClick(Cluster<Graffiti_Item> cluster) {
+                Log.e("cluster","clicked");
+                Log.e("Size: ", String.valueOf(cluster.getSize()));
+                String clusterText = "There are " + String.valueOf(cluster.getSize()) + " known graffiti locations in this cluster. " +
+                        "Please zoom in and select a specified location to create an event.";
+                Toast.makeText(getApplicationContext(), clusterText,Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+        mGraffitiCluster.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<Graffiti_Item>() {
+            @Override
+            public boolean onClusterItemClick(Graffiti_Item item) {
+                Log.e("cluster item","clicked");
+                Log.e("Coordinates: ", item.getPosition().toString());
+                return true;
+            }
+        });
+
+        mGraffitiCluster.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<Graffiti_Item>() {
+            @Override
+            public void onClusterItemInfoWindowClick(Graffiti_Item item) {
+
+            }
+        }); //added
     }
 
     private void addItems() {
-
-        // Set some lat/lng coordinates to start with.
-
-
-        // Add ten cluster items in close proximity, for purposes of this example.
         for (int i = 0; i < listOfLatLng.size(); i++) {
-            Graffiti_Item offsetItem = new Graffiti_Item(listOfLatLng.get(i));
-            mGraffitiCluster.addItem(offsetItem);
+            LatLng graffitiCoordinates = listOfLatLng.get(i);
+            Graffiti_Item graffiti_marker = new Graffiti_Item(graffitiCoordinates, graffitiCoordinates.toString(), graffitiCoordinates.toString());
+            mGraffitiCluster.addItem(graffiti_marker);
         }
     }
 

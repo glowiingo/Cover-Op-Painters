@@ -70,10 +70,23 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
                 JSONObject jsonObject = array.getJSONObject(i);
                 String dataID = jsonObject.getString("datasetid");
                 String recordID = jsonObject.getString("recordid");
-//                Fields fields = jsonObject.getString("fields");
-//                String location = jsonObject.getString("geo_local_area");
 
+                String location = jsonObject.getJSONObject("fields").getString("geo_local_area");
+                JSONArray coordJson = jsonObject.getJSONObject("fields").getJSONObject("geom").getJSONArray("coordinates");
+
+                ArrayList<String> coord = new ArrayList<>();
+                for (int j = 0; j<coordJson.length(); j++){
+                    coord.add(coordJson.get(j).toString());
+                }
+
+
+
+
+                
                 GraffitiData g = new GraffitiData();
+                g.setLat(coord.get(0));
+                g.setLng(coord.get(1));
+                g.setLocation(location);
                 g.setDatasetid(dataID);
                 g.setRecordid(recordID);
                 graffiti.add(g);
@@ -83,10 +96,16 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
         }
         CurrentAdapter adapter = new CurrentAdapter(this, graffiti);
         mListView.setAdapter(adapter);
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Intent intent = new Intent(CurrentEventActivity.this, CreateEvent.class);
+                GraffitiData graffitiItem = (GraffitiData) mListView.getItemAtPosition(position);
                 Intent intent = new Intent(CurrentEventActivity.this, CreateEventActivity.class);
+                intent.putExtra("area", graffitiItem.getLocation());
+                intent.putExtra("lat", graffitiItem.getlat());
+                intent.putExtra("lng", graffitiItem.getlng());
                 intent.putExtra("graffiti", mListView.getItemAtPosition(position).toString());
                 startActivity(intent);
             }
