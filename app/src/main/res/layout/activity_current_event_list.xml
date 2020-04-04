@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".CurrentEventListActivity"
     android:id="@+id/drawer"
     tools:openDrawer="start"
-    tools:context=".MainActivity">
-
+    android:orientation="vertical">
+    
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -22,30 +23,10 @@
             android:layout_marginTop="0dp"
             app:titleTextColor="#fff"/>
 
-        <Button
-            android:id="@+id/signIn"
+        <ListView
+            android:id="@+id/current_events_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/sign_in" />
-
-        <Button
-            android:id="@+id/current"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/current" />
-
-        <Button
-            android:id="@+id/gmaps_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/google_maps_button" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/currentList"
-            android:text="CurrentList"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -59,7 +40,5 @@
         android:background="@color/navbar_background"
         app:itemTextColor="#fff">
     </com.google.android.material.navigation.NavigationView>
-
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

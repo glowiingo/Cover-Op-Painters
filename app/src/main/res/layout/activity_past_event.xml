@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".PastEventActivity"
     android:id="@+id/drawer"
+    tools:openDrawer="start"
     android:orientation="vertical">
 
     <LinearLayout
@@ -29,6 +30,12 @@
         android:text="@string/past_button"
         android:layout_marginTop="30dp">
     </Button>
+
+        <ListView
+            android:id="@+id/past_events"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
     <com.google.android.material.navigation.NavigationView
         android:layout_width="match_parent"
@@ -41,9 +48,5 @@
         app:itemTextColor="#fff">
     </com.google.android.material.navigation.NavigationView>
 
-<!--    <ListView-->
-<!--        android:id="@+id/past_events"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content" />-->
 
 </androidx.drawerlayout.widget.DrawerLayout>
