@@ -1,6 +1,7 @@
 package ca.bcit.coveropspainters;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class Graffiti_Item implements ClusterItem {
@@ -46,4 +47,5 @@ public class Graffiti_Item implements ClusterItem {
     public void setSnippet(String snippet) {
         this.snippet = snippet;
     }
+
 }

@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -113,9 +114,9 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
         // manager.
         mMap.setOnCameraIdleListener(mGraffitiCluster);
         mMap.setOnMarkerClickListener(mGraffitiCluster);
-        mMap.setInfoWindowAdapter(mGraffitiCluster.getMarkerManager());
-
-        mMap.setOnInfoWindowClickListener(mGraffitiCluster); //added
+//        mMap.setInfoWindowAdapter(mGraffitiCluster.getMarkerManager());
+//
+//        mMap.setOnInfoWindowClickListener(mGraffitiCluster); //added
 
 
         // Add cluster items (markers) to the cluster manager.
@@ -126,6 +127,9 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
             public boolean onClusterClick(Cluster<Graffiti_Item> cluster) {
                 Log.e("cluster","clicked");
                 Log.e("Size: ", String.valueOf(cluster.getSize()));
+                String clusterText = "There are " + String.valueOf(cluster.getSize()) + " known graffiti locations in this cluster. " +
+                        "Please zoom in and select a specified location to create an event.";
+                Toast.makeText(getApplicationContext(), clusterText,Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -148,8 +152,9 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
 
     private void addItems() {
         for (int i = 0; i < listOfLatLng.size(); i++) {
-            Graffiti_Item offsetItem = new Graffiti_Item(listOfLatLng.get(i));
-            mGraffitiCluster.addItem(offsetItem);
+            LatLng graffitiCoordinates = listOfLatLng.get(i);
+            Graffiti_Item graffiti_marker = new Graffiti_Item(graffitiCoordinates, graffitiCoordinates.toString(), graffitiCoordinates.toString());
+            mGraffitiCluster.addItem(graffiti_marker);
         }
     }
 
