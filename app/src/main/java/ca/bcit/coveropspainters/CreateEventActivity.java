@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,16 +14,28 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CreateEvent extends AppCompatActivity {
-
+public class CreateEventActivity extends AppCompatActivity {
     private static final String TAG = "CreateEventActivity";
+    private DatabaseReference mDatabase;
+    private int count = 0;
     TextView addressData, postalData, cityData, inputTime, inputDate;
     Geocoder geocoder;
     List<Address> addresses;
@@ -36,6 +49,7 @@ public class CreateEvent extends AppCompatActivity {
         cityData = (TextView)findViewById(R.id.cityData);
         postalData = (TextView)findViewById(R.id.postalCodeData);
         geocoder = new Geocoder(this, Locale.getDefault());
+        mDatabase = FirebaseDatabase.getInstance().getReference("CurrentEvents");
         Bundle bundle = getIntent().getExtras();
         String dataArea =  bundle.getString("area");
         String lat =  bundle.getString("lat");
@@ -112,4 +126,21 @@ public class CreateEvent extends AppCompatActivity {
 
         datePickerDialog.show();
     }
+
+    public void onBtnClick(View v) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        if (user != null) {
+            String eventName = "Event" + count;
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            String key = db.getReference("CurrentEvents").push().getKey();
+            Events e = new Events(eventName, name, email);
+            mDatabase.child(key).setValue(e);
+        }
+        count++;
+        Toast.makeText(CreateEventActivity.this, "Added to the Database!!",
+                Toast.LENGTH_LONG).show();
+    }
+
 }

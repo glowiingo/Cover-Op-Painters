@@ -18,7 +18,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,7 @@ import java.util.Objects;
 public class CurrentEventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private String TAG = "CurrentEventActivity";
+    private int count = 0;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     NavigationView navigationView;
@@ -38,7 +40,6 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
 
     private ListView mListView;
     private List<GraffitiData> graffiti;
-    private Gson gson;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -59,7 +60,6 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
 
         Log.e(TAG, "ERROR");
 
-        gson = new Gson();
         mListView = findViewById(R.id.current_events);
         graffiti = new ArrayList<>();
         try {
@@ -100,16 +100,16 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CurrentEventActivity.this, CreateEvent.class);
+                // Intent intent = new Intent(CurrentEventActivity.this, CreateEvent.class);
                 GraffitiData graffitiItem = (GraffitiData) mListView.getItemAtPosition(position);
+                Intent intent = new Intent(CurrentEventActivity.this, CreateEventActivity.class);
                 intent.putExtra("area", graffitiItem.getLocation());
                 intent.putExtra("lat", graffitiItem.getlat());
                 intent.putExtra("lng", graffitiItem.getlng());
+                intent.putExtra("graffiti", mListView.getItemAtPosition(position).toString());
                 startActivity(intent);
             }
         });
-
-
     }
 
     @Override
