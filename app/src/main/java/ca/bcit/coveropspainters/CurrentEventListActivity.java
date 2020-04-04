@@ -82,14 +82,9 @@ public class CurrentEventListActivity extends AppCompatActivity {
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        Intent intent = new Intent(CurrentEventListActivity.this, MainActivity.class);
-//                        intent.putExtra("events", mListView.getItemAtPosition(position).toString());
-//                        startActivity(intent);
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        FirebaseDatabase db = FirebaseDatabase.getInstance();
-                        if (user != null) {
-                            String userID = user.getUid();
-                        }
+                        Intent intent = new Intent(CurrentEventListActivity.this, MainActivity.class);
+                        intent.putExtra("events", mListView.getItemAtPosition(position).toString());
+                        startActivity(intent);
                     }
                 });
             }

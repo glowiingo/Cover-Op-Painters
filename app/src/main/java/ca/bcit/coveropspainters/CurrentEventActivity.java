@@ -41,14 +41,6 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
     private ListView mListView;
     private List<GraffitiData> graffiti;
 
-    public List<GraffitiData> getGraffiti() {
-        return graffiti;
-    }
-
-    public void setGraffiti(List<GraffitiData> graffiti) {
-        this.graffiti = graffiti;
-    }
-
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
