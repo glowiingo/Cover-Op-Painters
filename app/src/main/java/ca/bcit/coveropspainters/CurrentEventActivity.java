@@ -1,7 +1,6 @@
 package ca.bcit.coveropspainters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,23 +10,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +32,7 @@ import java.util.Objects;
 public class CurrentEventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private String TAG = "CurrentEventActivity";
+    private int count = 0;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     NavigationView navigationView;
@@ -43,6 +41,13 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
     private ListView mListView;
     private List<GraffitiData> graffiti;
 
+    public List<GraffitiData> getGraffiti() {
+        return graffiti;
+    }
+
+    public void setGraffiti(List<GraffitiData> graffiti) {
+        this.graffiti = graffiti;
+    }
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -89,13 +94,11 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CurrentEventActivity.this, CreateEvent.class);
+                Intent intent = new Intent(CurrentEventActivity.this, CreateEventActivity.class);
                 intent.putExtra("graffiti", mListView.getItemAtPosition(position).toString());
                 startActivity(intent);
             }
         });
-
-
     }
 
     @Override

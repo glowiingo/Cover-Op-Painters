@@ -41,6 +41,12 @@
             android:layout_height="wrap_content"
             android:text="@string/google_maps_button" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/currentList"
+            android:text="CurrentList"/>
+
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView

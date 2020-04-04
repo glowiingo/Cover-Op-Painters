@@ -48,12 +48,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
+        setNavigationViewListener();
         toggle.syncState();
 
 
         Button signIn = findViewById(R.id.signIn);
         Button current = findViewById(R.id.current);
         Button gmaps = findViewById(R.id.gmaps_button);
+        Button currentList = findViewById(R.id.currentList);
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +75,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 gmap(v);
             }
         });
+        currentList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentList_intent(v);
+            }
+        });
     }
 
     public void sign_in(View v) {
@@ -90,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(i);
     }
 
+    public void currentList_intent(View v) {
+        Intent i = new Intent(this, CurrentEventListActivity.class);
+        startActivity(i);
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -104,9 +117,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.Logout:
                 Toast.makeText(MainActivity.this, "Logout Selected", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(MainActivity.this, "Successfully Logged Out", Toast.LENGTH_LONG).show();
                 break;
-
         }
-        return false;
+        return true;
     }
+    private void setNavigationViewListener() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.naviagtionView);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
 }

@@ -8,7 +8,7 @@
     android:layout_marginRight="15dp"
     android:orientation="vertical"
     android:weightSum="100"
-    tools:context=".CreateEvent">
+    tools:context=".CreateEventActivity">
 
 
     <RelativeLayout
@@ -86,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:onClick="onBtnClick"
             android:text="@string/create_event_button" />
     </RelativeLayout>
 
