@@ -1,7 +1,6 @@
 package ca.bcit.coveropspainters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,23 +10,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +38,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
 
     private ListView mListView;
     private List<GraffitiData> graffiti;
-
+    private Gson gson;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -63,6 +59,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
 
         Log.e(TAG, "ERROR");
 
+        gson = new Gson();
         mListView = findViewById(R.id.current_events);
         graffiti = new ArrayList<>();
         try {
@@ -73,10 +70,23 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
                 JSONObject jsonObject = array.getJSONObject(i);
                 String dataID = jsonObject.getString("datasetid");
                 String recordID = jsonObject.getString("recordid");
-//                Fields fields = jsonObject.getString("fields");
-//                String location = jsonObject.getString("geo_local_area");
 
+                String location = jsonObject.getJSONObject("fields").getString("geo_local_area");
+                JSONArray coordJson = jsonObject.getJSONObject("fields").getJSONObject("geom").getJSONArray("coordinates");
+
+                ArrayList<String> coord = new ArrayList<>();
+                for (int j = 0; j<coordJson.length(); j++){
+                    coord.add(coordJson.get(j).toString());
+                }
+
+
+
+
+                
                 GraffitiData g = new GraffitiData();
+                g.setLat(coord.get(0));
+                g.setLng(coord.get(1));
+                g.setLocation(location);
                 g.setDatasetid(dataID);
                 g.setRecordid(recordID);
                 graffiti.add(g);
@@ -86,11 +96,15 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
         }
         CurrentAdapter adapter = new CurrentAdapter(this, graffiti);
         mListView.setAdapter(adapter);
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CurrentEventActivity.this, CreateEvent.class);
-                intent.putExtra("graffiti", mListView.getItemAtPosition(position).toString());
+                GraffitiData graffitiItem = (GraffitiData) mListView.getItemAtPosition(position);
+                intent.putExtra("area", graffitiItem.getLocation());
+                intent.putExtra("lat", graffitiItem.getlat());
+                intent.putExtra("lng", graffitiItem.getlng());
                 startActivity(intent);
             }
         });
