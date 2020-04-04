@@ -7,7 +7,7 @@ public class GraffitiData {
 
     private String lat;
     private String lng;
-    private String type;
+    private String location;
     private String datasetid;
     private String recordid;
     private Fields fields;
@@ -19,8 +19,8 @@ public class GraffitiData {
     public String getlat(){return this.lat;}
     public void setLng(String lng){ this.lng = lng; }
     public String getlng(){return this.lng;}
-    public void setType(String t){ this.type = t; }
-    public String getType(){return this.type;}
+    public void setLocation(String t){ this.location = t; }
+    public String getLocation(){return this.location;}
 
     public String getDatasetid() {
         return datasetid;

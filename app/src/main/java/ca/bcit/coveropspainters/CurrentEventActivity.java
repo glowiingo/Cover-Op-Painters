@@ -1,7 +1,6 @@
 package ca.bcit.coveropspainters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,30 +10,22 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class CurrentEventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -80,7 +71,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
                 String dataID = jsonObject.getString("datasetid");
                 String recordID = jsonObject.getString("recordid");
 
-                String type = jsonObject.getJSONObject("fields").getJSONObject("geom").getString("type");
+                String location = jsonObject.getJSONObject("fields").getString("geo_local_area");
                 JSONArray coordJson = jsonObject.getJSONObject("fields").getJSONObject("geom").getJSONArray("coordinates");
 
                 ArrayList<String> coord = new ArrayList<>();
@@ -95,7 +86,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
                 GraffitiData g = new GraffitiData();
                 g.setLat(coord.get(0));
                 g.setLng(coord.get(1));
-                g.setType(type);
+                g.setLocation(location);
                 g.setDatasetid(dataID);
                 g.setRecordid(recordID);
                 graffiti.add(g);
@@ -111,7 +102,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CurrentEventActivity.this, CreateEvent.class);
                 GraffitiData graffitiItem = (GraffitiData) mListView.getItemAtPosition(position);
-                intent.putExtra("type", graffitiItem.getType());
+                intent.putExtra("area", graffitiItem.getLocation());
                 intent.putExtra("lat", graffitiItem.getlat());
                 intent.putExtra("lng", graffitiItem.getlng());
                 startActivity(intent);

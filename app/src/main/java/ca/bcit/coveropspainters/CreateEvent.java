@@ -20,7 +20,7 @@ public class CreateEvent extends AppCompatActivity {
     TextView postalData;
     TextView cityData;
     Geocoder geocoder;
-    ArrayList<Address> addresses;
+    List<Address> addresses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,31 +34,33 @@ public class CreateEvent extends AppCompatActivity {
         geocoder = new Geocoder(this, Locale.getDefault());
 
         Bundle bundle = getIntent().getExtras();
-        String dataType =  bundle.getString("type");
+        String dataArea =  bundle.getString("area");
         String lat =  bundle.getString("lat");
         String lng =  bundle.getString("lng");
-        Log.d(TAG, "onCreate longitude: " + lng);
-        Log.d(TAG, "onCreate latitude: " + lat);
 
-
-//        try {
-//            double dataLat = Double.parseDouble(lat);
-//            double dataLng = Double.parseDouble(lng);
-//            Log.d(TAG, "onCreate latitude: " + dataLat);
-//            Log.d(TAG, "onCreate longitude: " + dataLat);
-//            addresses = (ArrayList<Address>) geocoder.getFromLocation(dataLat, dataLng, 1);
-//            if (addresses.size()>0){
+        try {
+            double dataLat = Double.parseDouble(lng);
+            double dataLng = Double.parseDouble(lat);
+            Log.d(TAG, "onCreate latitude: " + dataLat);
+            Log.d(TAG, "onCreate longitude: " + dataLat);
+            addresses = geocoder.getFromLocation(dataLat, dataLng, 1);
+            if (addresses.size()>0){
 //                String address = addresses.get(0).getAddressLine(0);
-//                String city = addresses.get(0).getLocality();
-//                String postalCode = addresses.get(0).getPostalCode();
-//
-//                addressData.setText(address);
-//                cityData.setText(city);
-//                postalData.setText(postalCode);
-//            }
-//        }
-//        catch (NullPointerException | IOException e){
-//            e.getStackTrace();
-//        }
+                StringBuilder str = new StringBuilder();
+
+                String street = addresses.get(0).getThoroughfare();
+                String num = addresses.get(0).getSubThoroughfare();
+                str.append(num + " " + street);
+                String city = addresses.get(0).getLocality();
+                String postalCode = addresses.get(0).getPostalCode();
+
+                addressData.setText(str);
+                cityData.setText(city);
+                postalData.setText(postalCode);
+            }
+        }
+        catch (NullPointerException | IOException e){
+            e.getStackTrace();
+        }
     }
 }
