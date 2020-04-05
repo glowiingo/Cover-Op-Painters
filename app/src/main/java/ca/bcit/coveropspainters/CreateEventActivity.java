@@ -35,32 +35,39 @@ import java.util.Locale;
 public class CreateEventActivity extends AppCompatActivity {
     private static final String TAG = "CreateEventActivity";
     private DatabaseReference mDatabase;
-    private int count = 0;
     TextView addressData, postalData, cityData, inputTime, inputDate;
     Geocoder geocoder;
     List<Address> addresses;
     Button dateBtn, timeBtn;
+    String address;
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
         addressData = (TextView)findViewById(R.id.addressData);
         cityData = (TextView)findViewById(R.id.cityData);
         postalData = (TextView)findViewById(R.id.postalCodeData);
         geocoder = new Geocoder(this, Locale.getDefault());
         mDatabase = FirebaseDatabase.getInstance().getReference("CurrentEvents");
         Bundle bundle = getIntent().getExtras();
+
         String dataArea =  bundle.getString("area");
         String lat =  bundle.getString("lat");
         String lng =  bundle.getString("lng");
+        Log.e("Lat:", lat);
+        Log.e("Ln: ", lng);
         try {
             double dataLat = Double.parseDouble(lng);
             double dataLng = Double.parseDouble(lat);
-            Log.d(TAG, "onCreate latitude: " + dataLat);
-            Log.d(TAG, "onCreate longitude: " + dataLat);
+            Log.e(TAG, "onCreate latitude: " + dataLat);
+            Log.e(TAG, "onCreate longitude: " + dataLat);
             addresses = geocoder.getFromLocation(dataLat, dataLng, 1);
-            if (addresses.size()>0){
+            Log.e("Addresses: ", addresses.toString());
+            if (addresses.size() > 0) {
+                address = addresses.get(0).getAddressLine(0);
                 StringBuilder str = new StringBuilder();
                 String street = addresses.get(0).getThoroughfare();
                 String num = addresses.get(0).getSubThoroughfare();
@@ -74,6 +81,9 @@ public class CreateEventActivity extends AppCompatActivity {
         }
         catch (NullPointerException | IOException e){
             e.getStackTrace();
+            addressData.setText("Not available.");
+            cityData.setText("Not available.");
+            postalData.setText("Not available.");
         }
 
 
@@ -115,10 +125,13 @@ public class CreateEventActivity extends AppCompatActivity {
         int year = calendar.get(Calendar.YEAR);
         int mnth = calendar.get(Calendar.MONTH);
         int date = calendar.get(Calendar.DATE);
-
+        //++mnth;
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int mnth, int date) {
+                Log.e("Month", String.valueOf(mnth));
+                mnth = mnth + 1;
+                Log.e("Month", String.valueOf(mnth));
                 String dateString = year + "/" + mnth + "/" + date;
                 inputDate.setText(dateString);
             }
@@ -131,16 +144,46 @@ public class CreateEventActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         if (user != null) {
-            String eventName = "Event" + count;
+            String eventName = "Event " + count;
+            String time = inputTime.getText().toString();
+            String date = inputDate.getText().toString();
             String name = user.getDisplayName();
             String email = user.getEmail();
             String key = db.getReference("CurrentEvents").push().getKey();
-            Events e = new Events(eventName, name, email);
-            mDatabase.child(key).setValue(e);
+
+            // date validation
+            if (!checkDateTime(time, date)) {
+                Toast.makeText(CreateEventActivity.this, "Please input a time and date.", Toast.LENGTH_LONG).show();
+            } else if (checkNotAvailable(addressData.getText().toString(),
+                    postalData.getText().toString(), cityData.getText().toString())) {
+                Toast.makeText(CreateEventActivity.this, "Location data not available!", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Events e = new Events(eventName, name, email, address, time, date);
+                mDatabase.child(key).setValue(e);
+                count++;
+                Toast.makeText(CreateEventActivity.this, "Added to the Database!!",
+                        Toast.LENGTH_LONG).show();
+            }
+
+
         }
-        count++;
-        Toast.makeText(CreateEventActivity.this, "Added to the Database!!",
-                Toast.LENGTH_LONG).show();
     }
+
+    public boolean checkDateTime(String time, String date) {
+        if (time.equals("") || time == null) {
+            return false;
+        } else return !date.equals("") && date != null;
+    }
+
+    public boolean checkNotAvailable(String addressData, String postalData, String cityData) {
+        if (addressData.equals("Not available.")) {
+            return true;
+        } else if (cityData.equals("Not available.")) {
+            return true;
+        } else return postalData.equals("Not available.");
+
+    }
+
 
 }

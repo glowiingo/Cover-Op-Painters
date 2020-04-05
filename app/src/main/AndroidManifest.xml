@@ -7,7 +7,7 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CurrentEventListActivity"></activity>
+        <activity android:name=".MainPageActivity"></activity>
+        <activity android:name=".CurrentEventListActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -27,14 +28,14 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" /> <!-- <activity -->
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" /> <!-- <activity -->
         <!-- android:name=".GMapsMarkerActivity" -->
         <!-- android:label="@string/title_activity_g_maps_marker"></activity> -->
         <activity android:name=".GMapsMarkerActivity" />
-        <activity android:name=".PastAdapter" />
-        <activity android:name=".CurrentEventActivity" />
         <activity android:name=".CreateEventActivity" />
-        <activity android:name=".PastEventActivity" />
         <activity android:name=".FirebaseUIActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

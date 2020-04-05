@@ -11,10 +11,11 @@ public class GraffitiData {
     private String datasetid;
     private String recordid;
     private Fields fields;
-
+    private int logo;
     private String recordTimestamp;
     private Map<String, String> additionalProperties = new HashMap<>();
-
+    public void setLogo(int l){this.logo=l;}
+    public int getLogo(){return this.logo;}
     public void setLat(String lat){ this.lat = lat; }
     public String getlat(){return this.lat;}
     public void setLng(String lng){ this.lng = lng; }

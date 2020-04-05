@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +9,6 @@
     android:weightSum="100"
     tools:context=".CreateEventActivity">
 
-//descript
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,11 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="25dp"
+            android:textSize="25sp"
 
             android:text="@string/event_description_label" />
 
-        // address
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,21 +34,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Street:"
+                android:text="@string/street"
                 android:gravity="center"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:layout_weight="66.6"/>
 
             <TextView
                 android:id="@+id/addressData"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="33.3"/>
         </LinearLayout>
 
-        // City
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,21 +57,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="City:"
+                android:text="@string/city"
                 android:gravity="center"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:layout_weight="66.6"/>
 
             <TextView
                 android:id="@+id/cityData"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="33.3"/>
         </LinearLayout>
 
-        // PostalCode
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,14 +80,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Postal Code:"
+                android:text="@string/postCode"
                 android:gravity="center"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:layout_weight="66.6"/>
 
             <TextView
                 android:id="@+id/postalCodeData"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +98,6 @@
 
     </LinearLayout>
 
-//time
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -112,7 +106,7 @@
 
         <TextView
             android:id="@+id/timeLabel"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="66.6"
@@ -136,10 +130,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Set Time" />
+            android:text="@string/timeSet" />
     </RelativeLayout>
 
-//date
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -147,7 +140,7 @@
 
         <TextView
             android:id="@+id/dateLabel"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="66.6"
@@ -172,12 +165,10 @@
             android:layout_width="wrap_content"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content"
-            android:layout_weight="88.8"
-            android:text="Set Date"/>
+            android:text="@string/dateSet"/>
 
     </RelativeLayout>
 
-//create
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

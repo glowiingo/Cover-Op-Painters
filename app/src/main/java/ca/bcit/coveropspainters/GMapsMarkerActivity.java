@@ -1,42 +1,29 @@
 package ca.bcit.coveropspainters;
 
 import androidx.fragment.app.FragmentActivity;
-
-import android.content.res.Resources;
-import android.nfc.Tag;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.data.Feature;
 import com.google.maps.android.data.geojson.GeoJsonFeature;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyCallback {
+public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     private ArrayList<LatLng> listOfLatLng = new ArrayList<>();
     private ClusterManager<Graffiti_Item> mGraffitiCluster;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +36,7 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
 
     }
-
-
+    
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -78,6 +64,7 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
 
         assert graffitiGeoJsonObject != null;
         GeoJsonLayer layer = new GeoJsonLayer(mMap, graffitiGeoJsonObject);
+        // to add each individual marker to the map
         // layer.addLayerToMap();
 
         // auto focus to downtown Vancouver
@@ -90,17 +77,8 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
             listOfLatLng.add(latlng);
         }
         Log.e("List: ", String.valueOf(listOfLatLng.size()));
-        layer.setOnFeatureClickListener(new GeoJsonLayer.OnFeatureClickListener() {
-            @Override
-            public void onFeatureClick(Feature feature) {
-                Log.e("Feature: ", feature.toString());
-                Log.e("GeoJsonClick", "Feature clicked: " + feature.getGeometry().getGeometryObject());
-                Log.e("LatLon", feature.getGeometry().getGeometryObject().toString().split(" ")[1]);
-                Log.e("Geo Local: ", feature.getProperty("geo_local_area"));
-            }
-        });
 
-
+        // cluster the markers instead of adding individual markers
         setUpClusterer();
 
     }
@@ -114,10 +92,6 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
         // manager.
         mMap.setOnCameraIdleListener(mGraffitiCluster);
         mMap.setOnMarkerClickListener(mGraffitiCluster);
-//        mMap.setInfoWindowAdapter(mGraffitiCluster.getMarkerManager());
-//
-//        mMap.setOnInfoWindowClickListener(mGraffitiCluster); //added
-
 
         // Add cluster items (markers) to the cluster manager.
         addItems();
@@ -125,8 +99,6 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
         mGraffitiCluster.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<Graffiti_Item>() {
             @Override
             public boolean onClusterClick(Cluster<Graffiti_Item> cluster) {
-                Log.e("cluster","clicked");
-                Log.e("Size: ", String.valueOf(cluster.getSize()));
                 String clusterText = "There are " + String.valueOf(cluster.getSize()) + " known graffiti locations in this cluster. " +
                         "Please zoom in and select a specified location to create an event.";
                 Toast.makeText(getApplicationContext(), clusterText,Toast.LENGTH_SHORT).show();
@@ -136,8 +108,14 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
         mGraffitiCluster.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<Graffiti_Item>() {
             @Override
             public boolean onClusterItemClick(Graffiti_Item item) {
-                Log.e("cluster item","clicked");
-                Log.e("Coordinates: ", item.getPosition().toString());
+                GraffitiData graffitiItem = new GraffitiData();
+                graffitiItem.setLat(String.valueOf(item.getPosition().latitude));
+                graffitiItem.setLng(String.valueOf(item.getPosition().longitude));
+                Intent intent = new Intent(GMapsMarkerActivity.this, CreateEventActivity.class);
+                intent.putExtra("area", graffitiItem.getLocation());
+                intent.putExtra("lat", graffitiItem.getlng());
+                intent.putExtra("lng", graffitiItem.getlat());
+                startActivity(intent);
                 return true;
             }
         });
@@ -157,74 +135,5 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
             mGraffitiCluster.addItem(graffiti_marker);
         }
     }
-
-    /*
-     * In case this is needed.
-     */
-//    public void iterateMarkers() {
-//
-//        JSONObject graffitiJsonObject = null;
-//        JSONArray graffitiArray = null;
-//        try {
-//            graffitiJsonObject = new JSONObject(new GlobalFunctions().loadJSONFromAsset(getAssets(), "graffiti.json"));
-//        } catch (JSONException e) {
-//            Log.e("", "Couldn't get json.");
-//            e.printStackTrace();
-//        }
-//        if (graffitiJsonObject != null) {
-//            try {
-//                graffitiArray = graffitiJsonObject.getJSONArray("graffiti");
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        assert graffitiArray != null;
-//        for (int i = 0; i < graffitiArray.length(); i++) {
-//
-//            JSONObject singleGraffitiJsonObject = null;
-//            try {
-//                singleGraffitiJsonObject = graffitiArray.getJSONObject(i);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            JSONObject fields = null;
-//            try {
-//                assert singleGraffitiJsonObject != null;
-//                fields = singleGraffitiJsonObject.getJSONObject("fields");
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            JSONObject geom = null;
-//            try {
-//                assert fields != null;
-//                geom = fields.getJSONObject("geom");
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            JSONArray coordinates = null;
-//            try {
-//                assert geom != null;
-//                coordinates = geom.getJSONArray("coordinates");
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            assert coordinates != null;
-//            double lat = 0;
-//            double lon = 0;
-//            try {
-//                lat = coordinates.getDouble(0);
-//                lon = coordinates.getDouble(1);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//            LatLng mark = new LatLng(lat, lon);
-//            mMap.addMarker(new MarkerOptions().position(mark));
-//
-//
-//        }
-
-//    }
 
 }

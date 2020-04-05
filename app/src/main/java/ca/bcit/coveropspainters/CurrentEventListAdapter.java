@@ -28,11 +28,13 @@ public class CurrentEventListAdapter extends ArrayAdapter<Events> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_current_event_list_adapter, parent, false);
         }
-        TextView email, name;
+        TextView email, name, address;
         email = convertView.findViewById(R.id.email);
         name = convertView.findViewById(R.id.userName);
-        email.setText(events.getUserNames());
+        address = convertView.findViewById(R.id.address);
+        email.setText(events.getCreatedBy());
         name.setText(events.getEmail());
+        address.setText(events.getAddress());
         return convertView;
     }
 }

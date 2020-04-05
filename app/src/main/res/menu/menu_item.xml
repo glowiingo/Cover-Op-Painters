@@ -2,15 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/Profile"
-        android:title="Profile"/>
-    <item
-        android:id="@+id/Contact"
-        android:title="Contact"/>
-    <item
-        android:id="@+id/About"
-        android:title="About"/>
+        android:title="@string/profile_menu"/>
     <item
         android:id="@+id/Logout"
-        android:title="Logout"/>
+        android:title="@string/logout_menu"/>
 
 </menu>

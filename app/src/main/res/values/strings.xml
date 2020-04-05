@@ -26,4 +26,12 @@
     <string name="date_label">Date</string>
     <string name="time_label">Time</string>
     <string name="event_description_label">Location Description</string>
+    <string name="street">Street:</string>
+    <string name="city">City:</string>
+    <string name="postCode">Postal Code:</string>
+    <string name="timeSet">Set Time</string>
+    <string name="dateSet">Set Date</string>
+    <string name="profile_menu">Profile</string>
+    <string name="logout_menu">Logout</string>
+    <string name="coveropspainters">CoverOpsPainters</string>
 </resources>
