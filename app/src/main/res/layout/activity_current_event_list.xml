@@ -23,7 +23,20 @@
             android:layout_marginTop="0dp"
             app:titleTextColor="#fff"/>
 
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Click on Data to get Registered!"
+            android:textStyle="bold"
+            android:textColor="@color/google_maps"
+            android:fontFamily="@font/roboto"
+            android:textSize="22sp"
+            android:letterSpacing="0.009"
+            android:textAlignment="center"/>
+
         <ListView
+            android:layout_marginTop="15dp"
             android:id="@+id/current_events_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
