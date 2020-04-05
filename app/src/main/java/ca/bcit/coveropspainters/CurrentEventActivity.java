@@ -43,7 +43,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
     ActionBarDrawerToggle toggle;
     Geocoder geocoder;
     List<Address> addresses;
-
+    int imgLogo;
     private ListView mListView;
     private List<GraffitiData> graffiti;
 
@@ -52,7 +52,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_event);
-
+        imgLogo = R.drawable.logo;
         drawerLayout = findViewById(R.id.drawer);
         toolbar = findViewById(R.id.toolBarTop);
         navigationView = findViewById(R.id.naviagtionView);
@@ -86,6 +86,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
                 addresses = geocoder.getFromLocation(Double.parseDouble(coord.get(1)), Double.parseDouble(coord.get(0)), 1);
                 String dataID = addresses.get(0).getAddressLine(0);
                 GraffitiData g = new GraffitiData();
+                g.setLogo(imgLogo);
                 g.setLat(coord.get(0));
                 g.setLng(coord.get(1));
                 g.setLocation(location);

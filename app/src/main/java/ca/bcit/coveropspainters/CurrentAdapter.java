@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,9 +30,12 @@ public class CurrentAdapter extends ArrayAdapter<GraffitiData> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_current_item, parent, false);
         }
         TextView field, id;
+        ImageView logo;
+        logo = convertView.findViewById(R.id.urlToImage);
         field = convertView.findViewById(R.id.fields);
-        id = convertView.findViewById(R.id.record_id);
+        //id = convertView.findViewById(R.id.record_id);
         field.setText(graffiti.getDatasetid());
+        logo.setImageResource(graffiti.getLogo());
         return convertView;
     }
 }
