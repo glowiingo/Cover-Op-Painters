@@ -1,6 +1,7 @@
 package ca.bcit.coveropspainters;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -137,8 +138,13 @@ public class CurrentEventListActivity extends AppCompatActivity implements Navig
         TextView name = header.findViewById(R.id.firebase_userName);
         TextView email = header.findViewById(R.id.firebase_userEmail);
         switch (item.getItemId()) {
-            case R.id.Profile:
-                Toast.makeText(CurrentEventListActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
+            case R.id.google_maps_menu:
+                Intent i = new Intent(CurrentEventListActivity.this, GMapsMarkerActivity.class);
+                startActivity(i);
+                break;
+            case R.id.current_list_menu:
+                Intent i2 = new Intent(CurrentEventListActivity.this, CurrentEventListActivity.class);
+                startActivity(i2);
                 break;
             case R.id.Logout:
                 FirebaseAuth.getInstance().signOut();
