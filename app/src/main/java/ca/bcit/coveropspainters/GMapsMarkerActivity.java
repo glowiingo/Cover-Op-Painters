@@ -66,6 +66,7 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
 
         assert graffitiGeoJsonObject != null;
         GeoJsonLayer layer = new GeoJsonLayer(mMap, graffitiGeoJsonObject);
+        // to add each individual marker to the map
         // layer.addLayerToMap();
 
         // auto focus to downtown Vancouver
@@ -78,16 +79,8 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
             listOfLatLng.add(latlng);
         }
         Log.e("List: ", String.valueOf(listOfLatLng.size()));
-        layer.setOnFeatureClickListener(new GeoJsonLayer.OnFeatureClickListener() {
-            @Override
-            public void onFeatureClick(Feature feature) {
-                Log.e("Feature: ", feature.toString());
-                Log.e("GeoJsonClick", "Feature clicked: " + feature.getGeometry().getGeometryObject());
-                Log.e("LatLon", feature.getGeometry().getGeometryObject().toString().split(" ")[1]);
-                Log.e("Geo Local: ", feature.getProperty("geo_local_area"));
-            }
-        });
 
+        // cluster the markers instead of adding individual markers
         setUpClusterer();
 
     }
