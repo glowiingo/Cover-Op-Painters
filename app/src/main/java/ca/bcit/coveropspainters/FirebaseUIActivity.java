@@ -58,7 +58,7 @@ public class FirebaseUIActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Intent i = new Intent(this, MainActivity.class);
+                Intent i = new Intent(this, MainPageActivity.class);
                 startActivity(i);
                 // ...
             } else {

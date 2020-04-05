@@ -28,4 +28,5 @@
     <string name="event_description_label">Location Description</string>
     <string name="profile_menu">Profile</string>
     <string name="logout_menu">Logout</string>
+    <string name="coveropspainters">CoverOpsPainters</string>
 </resources>

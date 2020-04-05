@@ -8,14 +8,16 @@ public class Events {
     private String createdBy;
     private String email;
     private String address;
-    private Date date;
+    private String time;
+    private String date;
 
-    public Events(String eventName, String name, String email, String address) {
+    public Events(String eventName, String name, String email, String address, String time, String date) {
         this.eventName = eventName;
         this.createdBy = name;
         this.email = email;
         this.address = address;
-        date = Calendar.getInstance().getTime();
+        this.time = time;
+        this.date = date;
     }
 
     public String getEventName() {
@@ -48,6 +50,22 @@ public class Events {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
 

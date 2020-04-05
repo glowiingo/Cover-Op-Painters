@@ -136,10 +136,12 @@ public class CreateEventActivity extends AppCompatActivity {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         if (user != null) {
             String eventName = "Event " + count;
+            String time = inputTime.getText().toString();
+            String date = inputDate.getText().toString();
             String name = user.getDisplayName();
             String email = user.getEmail();
             String key = db.getReference("CurrentEvents").push().getKey();
-            Events e = new Events(eventName, name, email, address);
+            Events e = new Events(eventName, name, email, address, time, date);
             mDatabase.child(key).setValue(e);
             count++;
         }

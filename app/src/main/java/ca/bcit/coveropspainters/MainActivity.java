@@ -28,75 +28,20 @@ import org.w3c.dom.Text;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     private String TAG = "MainActivity";
-    DrawerLayout drawerLayout;
-    Toolbar toolbar;
-    NavigationView navigationView;
-    ActionBarDrawerToggle toggle;
-    View header;
-
 
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        drawerLayout = findViewById(R.id.drawer);
-        toolbar = findViewById(R.id.toolBarTop);
-        navigationView = findViewById(R.id.naviagtionView);
-        setSupportActionBar(toolbar);
-        header = navigationView.getHeaderView(0);
-        TextView name = header.findViewById(R.id.firebase_userName);
-        TextView email = header.findViewById(R.id.firebase_userEmail);
-
-
-        if(user != null) {
-            name.setText(user.getDisplayName());
-            email.setText(user.getEmail());
-        } else {
-            name.setText("Not-Logged In");
-            email.setText("Not-Logged In");
-        }
-        Objects.requireNonNull(getSupportActionBar()).setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        setNavigationViewListener();
-        toggle.syncState();
-
-
         Button signIn = findViewById(R.id.signIn);
-        Button current = findViewById(R.id.current);
-        Button gmaps = findViewById(R.id.gmaps_button);
-        Button currentList = findViewById(R.id.currentList);
-
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sign_in(v);
-            }
-        });
-        current.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                current_intent(v);
-            }
-        });
-        gmaps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gmap(v);
-            }
-        });
-        currentList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentList_intent(v);
             }
         });
     }
@@ -104,40 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void sign_in(View v) {
         Intent i = new Intent(this, FirebaseUIActivity.class);
         startActivity(i);
-    }
-
-    public void current_intent(View v) {
-        Intent i = new Intent(this, CurrentEventActivity.class);
-        startActivity(i);
-    }
-
-    public void gmap(View v) {
-        Intent i = new Intent(this, GMapsMarkerActivity.class);
-        startActivity(i);
-    }
-
-    public void currentList_intent(View v) {
-        Intent i = new Intent(this, CurrentEventListActivity.class);
-        startActivity(i);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.Profile:
-                Toast.makeText(MainActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.Logout:
-                Toast.makeText(MainActivity.this, "Logout Selected", Toast.LENGTH_SHORT).show();
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(MainActivity.this, "Successfully Logged Out", Toast.LENGTH_LONG).show();
-                break;
-        }
-        return true;
-    }
-    private void setNavigationViewListener() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.naviagtionView);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
 }

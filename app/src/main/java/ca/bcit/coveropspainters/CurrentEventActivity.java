@@ -72,6 +72,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
+        setNavigationViewListener();
         toggle.syncState();
 
 
@@ -127,14 +128,21 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        header = navigationView.getHeaderView(0);
+        TextView name = header.findViewById(R.id.firebase_userName);
+        TextView email = header.findViewById(R.id.firebase_userEmail);
         switch (item.getItemId()) {
             case R.id.Profile:
                 Toast.makeText(CurrentEventActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Logout:
-                Toast.makeText(CurrentEventActivity.this, "Logout Selected", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
-                Toast.makeText(CurrentEventActivity.this, "Successfully Logged Out", Toast.LENGTH_LONG).show();
+                if(user == null) {
+                    name.setText("Not-Logged In");
+                    email.setText("Not-Logged In");
+                    Toast.makeText(CurrentEventActivity.this, "Successfully Logged Out", Toast.LENGTH_LONG).show();
+                }
                 break;
         }
         return true;
