@@ -5,14 +5,16 @@ import java.util.Date;
 
 public class Events {
     private String eventName;
-    private String userNames;
+    private String createdBy;
     private String email;
+    private String address;
     private Date date;
 
-    public Events(String eventName, String name, String email) {
+    public Events(String eventName, String name, String email, String address) {
         this.eventName = eventName;
-        this.userNames = name;
+        this.createdBy = name;
         this.email = email;
+        this.address = address;
         date = Calendar.getInstance().getTime();
     }
 
@@ -24,12 +26,12 @@ public class Events {
         this.eventName = eventName;
     }
 
-    public String getUserNames() {
-        return userNames;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setUserNames(String userNames) {
-        this.userNames = userNames;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public String getEmail() {
@@ -39,6 +41,15 @@ public class Events {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 
 //    public String getDateCreated() {
 //        return dateCreated;

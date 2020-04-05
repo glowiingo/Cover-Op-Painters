@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -22,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
 
 import java.util.Objects;
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
+    View header;
 
 
     @SuppressLint("RestrictedApi")
@@ -40,10 +44,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         drawerLayout = findViewById(R.id.drawer);
         toolbar = findViewById(R.id.toolBarTop);
         navigationView = findViewById(R.id.naviagtionView);
         setSupportActionBar(toolbar);
+        header = navigationView.getHeaderView(0);
+        TextView name = header.findViewById(R.id.firebase_userName);
+        TextView email = header.findViewById(R.id.firebase_userEmail);
+
+
+        if(user != null) {
+            name.setText(user.getDisplayName());
+            email.setText(user.getEmail());
+        } else {
+            name.setText("Not-Logged In");
+            email.setText("Not-Logged In");
+        }
         Objects.requireNonNull(getSupportActionBar()).setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -108,12 +126,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.Profile:
                 Toast.makeText(MainActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.Contact:
-                Toast.makeText(MainActivity.this, "Contact Selected", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.About:
-                Toast.makeText(MainActivity.this, "About Selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Logout:
                 Toast.makeText(MainActivity.this, "Logout Selected", Toast.LENGTH_SHORT).show();

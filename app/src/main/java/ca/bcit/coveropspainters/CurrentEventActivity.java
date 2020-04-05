@@ -15,9 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,6 +40,7 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
     Toolbar toolbar;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
+    View header;
 
     private ListView mListView;
     private List<GraffitiData> graffiti;
@@ -47,10 +51,23 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_event);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         drawerLayout = findViewById(R.id.drawer);
         toolbar = findViewById(R.id.toolBarTop);
         navigationView = findViewById(R.id.naviagtionView);
         setSupportActionBar(toolbar);
+        header = navigationView.getHeaderView(0);
+        TextView name = header.findViewById(R.id.firebase_userName);
+        TextView email = header.findViewById(R.id.firebase_userEmail);
+
+        if(user != null) {
+            name.setText(user.getDisplayName());
+            email.setText(user.getEmail());
+        } else {
+            name.setText("Not-Logged In");
+            email.setText("Not-Logged In");
+        }
+
         Objects.requireNonNull(getSupportActionBar()).setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -79,10 +96,6 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
                     coord.add(coordJson.get(j).toString());
                 }
 
-
-
-
-                
                 GraffitiData g = new GraffitiData();
                 g.setLat(coord.get(0));
                 g.setLng(coord.get(1));
@@ -118,16 +131,16 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
             case R.id.Profile:
                 Toast.makeText(CurrentEventActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.Contact:
-                Toast.makeText(CurrentEventActivity.this, "Contact Selected", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.About:
-                Toast.makeText(CurrentEventActivity.this, "About Selected", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.Logout:
                 Toast.makeText(CurrentEventActivity.this, "Logout Selected", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(CurrentEventActivity.this, "Successfully Logged Out", Toast.LENGTH_LONG).show();
                 break;
         }
-        return false;
+        return true;
+    }
+    private void setNavigationViewListener() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.naviagtionView);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 }

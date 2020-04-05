@@ -26,4 +26,6 @@
     <string name="date_label">Date</string>
     <string name="time_label">Time</string>
     <string name="event_description_label">Location Description</string>
+    <string name="profile_menu">Profile</string>
+    <string name="logout_menu">Logout</string>
 </resources>

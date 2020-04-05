@@ -1,11 +1,18 @@
 package ca.bcit.coveropspainters;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.res.Resources;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -17,6 +24,9 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.data.Feature;
@@ -31,12 +41,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyCallback {
+public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     private ArrayList<LatLng> listOfLatLng = new ArrayList<>();
     private ClusterManager<Graffiti_Item> mGraffitiCluster;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
