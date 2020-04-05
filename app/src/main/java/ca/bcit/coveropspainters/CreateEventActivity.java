@@ -1,14 +1,22 @@
 package ca.bcit.coveropspainters;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,6 +24,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -31,21 +40,53 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
-public class CreateEventActivity extends AppCompatActivity {
+public class CreateEventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "CreateEventActivity";
     private DatabaseReference mDatabase;
+    DrawerLayout drawerLayout;
+    Toolbar toolbar;
+    NavigationView navigationView;
+    ActionBarDrawerToggle toggle;
+    View header;
     TextView addressData, postalData, cityData, inputTime, inputDate;
     Geocoder geocoder;
     List<Address> addresses;
-    Button dateBtn, timeBtn;
+    CardView timeBtn, dateBtn;
     String address;
     int count = 0;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        drawerLayout = findViewById(R.id.drawer);
+        toolbar = findViewById(R.id.toolBarTop);
+        navigationView = findViewById(R.id.naviagtionView);
+        setSupportActionBar(toolbar);
+        header = navigationView.getHeaderView(0);
+        TextView name = header.findViewById(R.id.firebase_userName);
+        TextView email = header.findViewById(R.id.firebase_userEmail);
+
+
+        if(user != null) {
+            name.setText(user.getDisplayName());
+            email.setText(user.getEmail());
+        } else {
+            name.setText("Not-Logged In");
+            email.setText("Not-Logged In");
+        }
+        Objects.requireNonNull(getSupportActionBar()).setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        setNavigationViewListener();
+        toggle.syncState();
 
         addressData = (TextView)findViewById(R.id.addressData);
         cityData = (TextView)findViewById(R.id.cityData);
@@ -88,9 +129,9 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
         inputDate = findViewById(R.id.inputDate);
-        dateBtn = findViewById(R.id.setDateBtn);
+        dateBtn = findViewById(R.id.date_card);
         inputTime = findViewById(R.id.inputTime);
-        timeBtn = findViewById(R.id.setTimeBtn);
+        timeBtn = findViewById(R.id.time_card);
 
         timeBtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -106,15 +147,21 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     private void setTime(){
-        Calendar calendar = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR);
         int min = calendar.get(Calendar.MINUTE);
+        final int check_AM_PM = calendar.get(Calendar.AM_PM);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener(){
             @Override
             public void onTimeSet(TimePicker view, int hour, int min) {
-                String timeString = "Hour: " + hour + " Minute: " + min;
-                inputTime.setText(timeString);
+                if(check_AM_PM == Calendar.AM) {
+                    String timeString = hour + " : " + min + " AM";
+                    inputTime.setText(timeString);
+                } else {
+                    String timeString = hour + " : " + min + " PM";
+                    inputTime.setText(timeString);
+                }
             }
         }, hour, min, false);
         timePickerDialog.show();
@@ -125,14 +172,13 @@ public class CreateEventActivity extends AppCompatActivity {
         int year = calendar.get(Calendar.YEAR);
         int mnth = calendar.get(Calendar.MONTH);
         int date = calendar.get(Calendar.DATE);
-        //++mnth;
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int mnth, int date) {
                 Log.e("Month", String.valueOf(mnth));
                 mnth = mnth + 1;
                 Log.e("Month", String.valueOf(mnth));
-                String dateString = year + "/" + mnth + "/" + date;
+                String dateString = year + " / " + mnth + " / " + date;
                 inputDate.setText(dateString);
             }
         }, year, mnth, date);
@@ -165,9 +211,9 @@ public class CreateEventActivity extends AppCompatActivity {
                 Toast.makeText(CreateEventActivity.this, "Added to the Database!!",
                         Toast.LENGTH_LONG).show();
             }
-
-
         }
+        Intent i = new Intent(CreateEventActivity.this, MainPageActivity.class);
+        startActivity(i);
     }
 
     public boolean checkDateTime(String time, String date) {
@@ -184,6 +230,34 @@ public class CreateEventActivity extends AppCompatActivity {
         } else return postalData.equals("Not available.");
 
     }
-
-
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        header = navigationView.getHeaderView(0);
+        TextView name = header.findViewById(R.id.firebase_userName);
+        TextView email = header.findViewById(R.id.firebase_userEmail);
+        switch (item.getItemId()) {
+            case R.id.google_maps_menu:
+                Intent i = new Intent(CreateEventActivity.this, GMapsMarkerActivity.class);
+                startActivity(i);
+                break;
+            case R.id.current_list_menu:
+                Intent i2 = new Intent(CreateEventActivity.this, CurrentEventListActivity.class);
+                startActivity(i2);
+                break;
+            case R.id.Logout:
+                FirebaseAuth.getInstance().signOut();
+                if(user == null) {
+                    name.setText("Not-Logged In");
+                    email.setText("Not-Logged In");
+                    Toast.makeText(CreateEventActivity.this, "Successfully Logged Out", Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
+        return true;
+    }
+    private void setNavigationViewListener() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.naviagtionView);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 }
