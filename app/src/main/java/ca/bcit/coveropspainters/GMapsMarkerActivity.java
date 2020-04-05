@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,11 +18,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
-public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyCallback {
+public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     private ArrayList<LatLng> listOfLatLng = new ArrayList<>();
     private ClusterManager<Graffiti_Item> mGraffitiCluster;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -31,4 +31,7 @@
     <string name="postCode">Postal Code:</string>
     <string name="timeSet">Set Time</string>
     <string name="dateSet">Set Date</string>
+    <string name="profile_menu">Profile</string>
+    <string name="logout_menu">Logout</string>
+    <string name="coveropspainters">CoverOpsPainters</string>
 </resources>
