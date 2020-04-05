@@ -13,7 +13,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.data.Feature;
 import com.google.maps.android.data.geojson.GeoJsonFeature;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
 import org.json.JSONException;
@@ -37,8 +36,7 @@ public class GMapsMarkerActivity extends FragmentActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
 
     }
-
-
+    
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
