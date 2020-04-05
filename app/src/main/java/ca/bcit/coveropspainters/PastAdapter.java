@@ -32,9 +32,9 @@ public class PastAdapter extends ArrayAdapter<GraffitiData> {
         }
         TextView field, id;
         field = convertView.findViewById(R.id.fields);
-        id = convertView.findViewById(R.id.record_id);
+        //id = convertView.findViewById(R.id.record_id);
         field.setText(graffiti.getDatasetid());
-        id.setText(graffiti.getRecordid());
+        //id.setText(graffiti.getRecordid());
         return convertView;
     }
 }
