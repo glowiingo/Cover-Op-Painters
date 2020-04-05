@@ -61,16 +61,9 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         setNavigationViewListener();
         toggle.syncState();
 
-        Button current = findViewById(R.id.current);
         Button gmaps = findViewById(R.id.gmaps_button);
         Button currentList = findViewById(R.id.currentList);
 
-        current.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                current_intent(v);
-            }
-        });
         gmaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,11 +76,6 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                 currentList_intent(v);
             }
         });
-    }
-
-    public void current_intent(View v) {
-        Intent i = new Intent(this, CurrentEventActivity.class);
-        startActivity(i);
     }
 
     public void gmap(View v) {

@@ -23,16 +23,10 @@
             app:titleTextColor="#fff"/>
 
         <Button
-            android:id="@+id/current"
-            android:layout_marginTop="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/current" />
-
-        <Button
             android:id="@+id/gmaps_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:text="@string/google_maps_button" />
 
         <Button
