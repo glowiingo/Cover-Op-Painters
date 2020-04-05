@@ -1,6 +1,8 @@
 package ca.bcit.coveropspainters;
 
 import android.annotation.SuppressLint;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,8 +27,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class CurrentEventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -37,6 +41,8 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
     Toolbar toolbar;
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
+    Geocoder geocoder;
+    List<Address> addresses;
 
     private ListView mListView;
     private List<GraffitiData> graffiti;
@@ -68,8 +74,6 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
             for (int i = 0; i < array.length(); i++) {
 
                 JSONObject jsonObject = array.getJSONObject(i);
-                String dataID = jsonObject.getString("datasetid");
-                String recordID = jsonObject.getString("recordid");
 
                 String location = jsonObject.getJSONObject("fields").getString("geo_local_area");
                 JSONArray coordJson = jsonObject.getJSONObject("fields").getJSONObject("geom").getJSONArray("coordinates");
@@ -78,20 +82,17 @@ public class CurrentEventActivity extends AppCompatActivity implements Navigatio
                 for (int j = 0; j<coordJson.length(); j++){
                     coord.add(coordJson.get(j).toString());
                 }
-
-
-
-
-                
+                geocoder = new Geocoder(this, Locale.getDefault());
+                addresses = geocoder.getFromLocation(Double.parseDouble(coord.get(1)), Double.parseDouble(coord.get(0)), 1);
+                String dataID = addresses.get(0).getAddressLine(0);
                 GraffitiData g = new GraffitiData();
                 g.setLat(coord.get(0));
                 g.setLng(coord.get(1));
                 g.setLocation(location);
                 g.setDatasetid(dataID);
-                g.setRecordid(recordID);
                 graffiti.add(g);
             }
-        } catch (JSONException e) {
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
         CurrentAdapter adapter = new CurrentAdapter(this, graffiti);
