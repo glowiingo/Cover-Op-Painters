@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/Profile"
-        android:title="@string/profile_menu"/>
+        android:id="@+id/google_maps_menu"
+        android:title="@string/google_maps"/>
+    <item
+        android:id="@+id/current_list_menu"
+        android:title="@string/current_list"/>
     <item
         android:id="@+id/Logout"
         android:title="@string/logout_menu"/>

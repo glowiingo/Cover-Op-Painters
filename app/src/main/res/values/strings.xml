@@ -33,5 +33,9 @@
     <string name="dateSet">Set Date</string>
     <string name="profile_menu">Profile</string>
     <string name="logout_menu">Logout</string>
-    <string name="coveropspainters">CoverOpsPainters</string>
+    <string name="coveropspainters">Cover-Ops-Painters</string>
+    <string name="current_list">Current List</string>
+    <string name="googlemaps_menu">googlemaps_menu</string>
+    <string name="google_maps">Google Maps</string>
+    <string name="registeration">Click on Data to get Registered!</string>
 </resources>

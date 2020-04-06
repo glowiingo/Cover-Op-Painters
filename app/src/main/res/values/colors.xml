@@ -3,6 +3,11 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="navbar_background">#7BA3C2</color>
+    <color name="navbar_background">#457B9D</color>
     <color name="background_color">#8BA3CC</color>
+    <color name="ghost_white">#FBF9FF</color>
+    <color name="lapis">#247BA0</color>
+    <color name="sea_foam">#A8DADC</color>
+    <color name="google_maps">#5BC0EB</color>
+    <color name="currentList">#9BC53D</color>
 </resources>

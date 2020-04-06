@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
@@ -29,6 +30,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     View header;
+    CardView gmaps, currentList;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -47,7 +49,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         TextView email = header.findViewById(R.id.firebase_userEmail);
 
 
-        if(user != null) {
+        if (user != null) {
             name.setText(user.getDisplayName());
             email.setText(user.getEmail());
         } else {
@@ -61,8 +63,8 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         setNavigationViewListener();
         toggle.syncState();
 
-        Button gmaps = findViewById(R.id.gmaps_button);
-        Button currentList = findViewById(R.id.currentList);
+        gmaps = findViewById(R.id.gmaps_button);
+        currentList = findViewById(R.id.currentList);
 
         gmaps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,12 +97,20 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         TextView name = header.findViewById(R.id.firebase_userName);
         TextView email = header.findViewById(R.id.firebase_userEmail);
         switch (item.getItemId()) {
-            case R.id.Profile:
-                Toast.makeText(MainPageActivity.this, "Profile Selected", Toast.LENGTH_SHORT).show();
+            case R.id.google_maps_menu:
+                Intent i = new Intent(MainPageActivity.this, GMapsMarkerActivity.class);
+                startActivity(i);
+                break;
+            case R.id.current_list_menu:
+                Intent i2 = new Intent(MainPageActivity.this, CurrentEventListActivity.class);
+                startActivity(i2);
                 break;
             case R.id.Logout:
                 FirebaseAuth.getInstance().signOut();
-                if(user == null) {
+                Intent logout = new Intent(this, MainActivity.class);
+                Toast.makeText(MainPageActivity.this, "Successfully Logged Out", Toast.LENGTH_LONG).show();
+                startActivity(logout);
+                if (user == null) {
                     name.setText("Not-Logged In");
                     email.setText("Not-Logged In");
                     Toast.makeText(MainPageActivity.this, "Successfully Logged Out", Toast.LENGTH_LONG).show();
@@ -109,6 +119,7 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
         }
         return true;
     }
+
     private void setNavigationViewListener() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.naviagtionView);
         navigationView.setNavigationItemSelectedListener(this);
