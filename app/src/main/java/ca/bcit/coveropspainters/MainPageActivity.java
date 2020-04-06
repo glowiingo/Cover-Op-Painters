@@ -107,6 +107,9 @@ public class MainPageActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.Logout:
                 FirebaseAuth.getInstance().signOut();
+                Intent logout = new Intent(this, MainActivity.class);
+                Toast.makeText(MainPageActivity.this, "Successfully Logged Out", Toast.LENGTH_LONG).show();
+                startActivity(logout);
                 if (user == null) {
                     name.setText("Not-Logged In");
                     email.setText("Not-Logged In");

@@ -44,7 +44,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Google Maps"
+                    android:text="Create Event"
                     android:textColor="@color/ghost_white"
                     android:textSize="32sp"
                     android:letterSpacing="0.01"
@@ -72,7 +72,7 @@
                     android:fontFamily="@font/roboto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Current Events"
+                    android:text="Register for Events"
                     android:layout_gravity="center"
                     android:textColor="@color/ghost_white"
                     android:textSize="32sp"
