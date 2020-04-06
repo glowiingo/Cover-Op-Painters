@@ -27,7 +27,7 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Click on Data to get Registered!"
+            android:text="@string/registeration"
             android:textStyle="bold"
             android:textColor="@color/google_maps"
             android:fontFamily="@font/roboto"
